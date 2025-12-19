@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generador interactivo de colores. Aprende sobre HEX, RGB, HSL mientras exploras paletas de colores únicas. ¡Perfecto para diseñadores y desarrolladores!">
+    <meta name="keywords" content="color, generador, paleta, diseño web, hex, rgb, hsl, color picker, educación">
+    <meta name="author" content="ColorGen Pro">
+    
+    <title>🎨 ColorLab | Generador Interactivo de Colores</title>
+    
+    <!-- Fuentes de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon dinámico -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22667eea%22>🎨</text></svg>">
+    <meta name="theme-color" content="#667eea">
+</head>
+<body>
+    <div class="container">
+        <!-- Header con navegación -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-palette logo-icon"></i>
+                    <h1 class="logo-text">Color<span class="logo-highlight">Lab</span></h1>
+                </div>
+                
+                <nav class="nav-tabs" role="tablist">
+                    <button class="nav-tab active" data-tab="generator" id="tab-generator">
+                        <i class="fas fa-magic"></i>
+                        <span>Generador</span>
+                    </button>
+                    <button class="nav-tab" data-tab="education" id="tab-education">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Aprender</span>
+                    </button>
+                    <button class="nav-tab" data-tab="palettes" id="tab-palettes">
+                        <i class="fas fa-swatchbook"></i>
+                        <span>Paletas</span>
+                    </button>
+                    <button class="nav-tab" data-tab="history" id="tab-history">
+                        <i class="fas fa-history"></i>
+                        <span>Historial</span>
+                    </button>
+                </nav>
+                
+                <div class="header-controls">
+                    <button class="btn-icon" id="themeToggle" aria-label="Cambiar tema claro/oscuro">
+                        <i class="fas fa-sun"></i>
+                    </button>
+                    <button class="btn-icon" id="soundToggle" aria-label="Alternar sonidos">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <!-- Pestaña Generador -->
+            <section class="tab-content active" id="generator-tab" role="tabpanel" aria-labelledby="tab-generator">
+                <div class="color-display-container">
+                    <div class="color-display-header">
+                        <h2 class="section-title">Explora Colores Aleatorios</h2>
+                        <div class="color-display-actions">
+                            <button class="btn btn-secondary" id="likeColor">
+                                <i class="fas fa-heart"></i>
+                                <span>Guardar</span>
+                            </button>
+                            <button class="btn btn-secondary" id="lockColor" aria-label="Bloquear color actual">
+                                <i class="fas fa-lock-open"></i>
+                                <span>Bloquear</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Vista previa del color principal -->
+                    <div class="color-preview-container">
+                        <div class="color-preview-main" id="colorPreview" aria-label="Previsualización del color actual">
+                            <div class="color-info-overlay">
+                                <div class="color-hex-display">
+                                    <div class="color-hex-label">CÓDIGO HEX</div>
+                                    <button class="color-hex-value" id="colorHex" aria-label="Código hexadecimal del color">
+                                        <span id="currentHex">#667EEA</span>
+                                        <i class="fas fa-copy copy-icon"></i>
+                                    </button>
+                                    <div class="color-name" id="colorName">Azul Majestuoso</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Colores relacionados -->
+                        <div class="related-colors">
+                            <div class="related-color" style="background-color: #5568d5;" data-color="#5568d5">
+                                <span class="related-label">Más Oscuro</span>
+                            </div>
+                            <div class="related-color" style="background-color: #8896f0;" data-color="#8896f0">
+                                <span class="related-label">Más Claro</span>
+                            </div>
+                            <div class="related-color" style="background-color: #ea667e;" data-color="#ea667e">
+                                <span class="related-label">Complementario</span>
+                            </div>
+                            <div class="related-color" style="background-color: #6bea66;" data-color="#6bea66">
+                                <span class="related-label">Análogo</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Controles principales -->
+                    <div class="generator-controls">
+                        <div class="control-group">
+                            <h3 class="control-title">Generación Rápida</h3>
+                            <div class="control-buttons">
+                                <button class="btn btn-primary btn-lg" id="generateRandom">
+                                    <i class="fas fa-random"></i>
+                                    <span>Color Aleatorio</span>
+                                </button>
+                                <button class="btn btn-secondary btn-lg" id="generateVibrant">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Color Vibrante</span>
+                                </button>
+                                <button class="btn btn-secondary btn-lg" id="generatePastel">
+                                    <i class="fas fa-cloud"></i>
+                                    <span>Color Pastel</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <h3 class="control-title">Configuración Avanzada</h3>
+                            <div class="advanced-controls">
+                                <div class="slider-control">
+                                    <label for="hueRange" class="slider-label">
+                                        <i class="fas fa-tint"></i>
+                                        <span>Matiz (Hue): <span id="hueValue">228°</span></span>
+                                    </label>
+                                    <input type="range" id="hueRange" min="0" max="360" value="228" class="slider">
+                                </div>
+                                
+                                <div class="slider-control">
+                                    <label for="saturationRange" class="slider-label">
+                                        <i class="fas fa-sun"></i>
+                                        <span>Saturación: <span id="saturationValue">76%</span></span>
+                                    </label>
+                                    <input type="range" id="saturationRange" min="0" max="100" value="76" class="slider">
+                                </div>
+                                
+                                <div class="slider-control">
+                                    <label for="lightnessRange" class="slider-label">
+                                        <i class="fas fa-adjust"></i>
+                                        <span>Luminosidad: <span id="lightnessValue">66%</span></span>
+                                    </label>
+                                    <input type="range" id="lightnessRange" min="0" max="100" value="66" class="slider">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Información del color en diferentes formatos -->
+                    <div class="color-formats-section">
+                        <h3 class="section-subtitle">Información del Color</h3>
+                        <div class="formats-grid">
+                            <div class="format-card">
+                                <div class="format-header">
+                                    <i class="fas fa-hashtag format-icon"></i>
+                                    <h4>HEX</h4>
+                                </div>
+                                <code class="format-value" id="hexValue">#667EEA</code>
+                                <p class="format-description">Código hexadecimal usado en diseño web</p>
+                            </div>
+                            
+                            <div class="format-card">
+                                <div class="format-header">
+                                    <i class="fas fa-sliders-h format-icon"></i>
+                                    <h4>RGB</h4>
+                                </div>
+                                <code class="format-value" id="rgbValue">rgb(102, 126, 234)</code>
+                                <div class="rgb-components">
+                                    <div class="rgb-component">
+                                        <span class="component-label">Rojo</span>
+                                        <span class="component-value" id="redValue">102</span>
+                                    </div>
+                                    <div class="rgb-component">
+                                        <span class="component-label">Verde</span>
+                                        <span class="component-value" id="greenValue">126</span>
+                                    </div>
+                                    <div class="rgb-component">
+                                        <span class="component-label">Azul</span>
+                                        <span class="component-value" id="blueValue">234</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="format-card">
+                                <div class="format-header">
+                                    <i class="fas fa-circle format-icon"></i>
+                                    <h4>HSL</h4>
+                                </div>
+                                <code class="format-value" id="hslValue">hsl(228, 76%, 66%)</code>
+                                <div class="hsl-components">
+                                    <div class="hsl-component">
+                                        <span class="component-label">Matiz</span>
+                                        <span class="component-value" id="hueComponent">228°</span>
+                                    </div>
+                                    <div class="hsl-component">
+                                        <span class="component-label">Saturación</span>
+                                        <span class="component-value" id="saturationComponent">76%</span>
+                                    </div>
+                                    <div class="hsl-component">
+                                        <span class="component-label">Luminosidad</span>
+                                        <span class="component-value" id="lightnessComponent">66%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="format-card">
+                                <div class="format-header">
+                                    <i class="fas fa-eye-dropper format-icon"></i>
+                                    <h4>CMYK</h4>
+                                </div>
+                                <code class="format-value" id="cmykValue">cmyk(56%, 46%, 0%, 8%)</code>
+                                <p class="format-description">Usado en impresión profesional</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pestaña Educación -->
+            <section class="tab-content" id="education-tab" role="tabpanel" aria-labelledby="tab-education">
+                <div class="education-container">
+                    <h2 class="section-title">Aprende Sobre Teoría del Color</h2>
+                    
+                    <div class="lessons-grid">
+                        <div class="lesson-card">
+                            <div class="lesson-icon">
+                                <i class="fas fa-hashtag"></i>
+                            </div>
+                            <h3 class="lesson-title">Sistema HEX</h3>
+                            <p class="lesson-description">
+                                Los códigos hexadecimales usan 6 dígitos (0-9, A-F) para representar colores en diseño web. 
+                                Ejemplo: <strong>#RRGGBB</strong>
+                            </p>
+                            <div class="lesson-example">
+                                <div class="example-color" style="background-color: #FF5733;"></div>
+                                <code>#FF5733</code>
+                            </div>
+                        </div>
+                        
+                        <div class="lesson-card">
+                            <div class="lesson-icon">
+                                <i class="fas fa-sliders-h"></i>
+                            </div>
+                            <h3 class="lesson-title">Sistema RGB</h3>
+                            <p class="lesson-description">
+                                RGB significa Red, Green, Blue. Cada valor va de 0 a 255. 
+                                Se usa en pantallas digitales.
+                            </p>
+                            <div class="lesson-example">
+                                <div class="example-color" style="background-color: rgb(255, 87, 51);"></div>
+                                <code>rgb(255, 87, 51)</code>
+                            </div>
+                        </div>
+                        
+                        <div class="lesson-card">
+                            <div class="lesson-icon">
+                                <i class="fas fa-circle"></i>
+                            </div>
+                            <h3 class="lesson-title">Sistema HSL</h3>
+                            <p class="lesson-description">
+                                HSL significa Hue, Saturation, Lightness. Más intuitivo para ajustar colores.
+                                Hue: 0-360°, Sat: 0-100%, Light: 0-100%
+                            </p>
+                            <div class="lesson-example">
+                                <div class="example-color" style="background-color: hsl(11, 100%, 60%);"></div>
+                                <code>hsl(11, 100%, 60%)</code>
+                            </div>
+                        </div>
+                        
+                        <div class="lesson-card">
+                            <div class="lesson-icon">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h3 class="lesson-title">Armonías de Color</h3>
+                            <p class="lesson-description">
+                                Aprende sobre colores complementarios, análogos, triádicos y cómo crear paletas armoniosas.
+                            </p>
+                            <div class="harmony-example">
+                                <div class="harmony-color" style="background-color: #667eea;"></div>
+                                <div class="harmony-color" style="background-color: #ea667e;"></div>
+                                <div class="harmony-color" style="background-color: #6bea66;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-lesson">
+                        <h3 class="lesson-title">Práctica Interactiva</h3>
+                        <div class="color-wheel-container">
+                            <div class="color-wheel" id="colorWheel">
+                                <!-- Rueda de color interactiva -->
+                            </div>
+                            <div class="wheel-controls">
+                                <div class="wheel-info">
+                                    <div class="info-item">
+                                        <span class="info-label">Ángulo:</span>
+                                        <span id="wheelAngle">0°</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Color:</span>
+                                        <span id="wheelColor">#000000</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-secondary" id="exploreWheel">
+                                    <i class="fas fa-search"></i>
+                                    Explorar Rueda
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pestaña Paletas -->
+            <section class="tab-content" id="palettes-tab" role="tabpanel" aria-labelledby="tab-palettes">
+                <div class="palettes-container">
+                    <h2 class="section-title">Paletas de Color Predefinidas</h2>
+                    
+                    <div class="palettes-grid">
+                        <!-- Paletas se generarán dinámicamente -->
+                    </div>
+                    
+                    <div class="palette-generator">
+                        <h3 class="section-subtitle">Crea Tu Propia Paleta</h3>
+                        <div class="palette-controls">
+                            <div class="palette-options">
+                                <div class="option-group">
+                                    <label for="paletteType" class="option-label">Tipo de Paleta:</label>
+                                    <select id="paletteType" class="select-input">
+                                        <option value="analogous">Análoga</option>
+                                        <option value="complementary">Complementaria</option>
+                                        <option value="triadic">Triádica</option>
+                                        <option value="monochromatic">Monocromática</option>
+                                        <option value="tetradic">Tetrádica</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="option-group">
+                                    <label for="paletteColors" class="option-label">Número de Colores:</label>
+                                    <input type="range" id="paletteColors" min="3" max="8" value="5" class="slider">
+                                    <span id="colorsCount">5</span>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary" id="generatePalette">
+                                <i class="fas fa-plus-circle"></i>
+                                Generar Paleta
+                            </button>
+                        </div>
+                        
+                        <div class="custom-palette" id="customPalette">
+                            <!-- Paleta personalizada se generará aquí -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pestaña Historial -->
+            <section class="tab-content" id="history-tab" role="tabpanel" aria-labelledby="tab-history">
+                <div class="history-container">
+                    <div class="history-header">
+                        <h2 class="section-title">Tu Historial de Colores</h2>
+                        <div class="history-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-palette"></i>
+                                <span id="totalColors">0</span>
+                                <span class="stat-label">Colores</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-heart"></i>
+                                <span id="favoriteColors">0</span>
+                                <span class="stat-label">Favoritos</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-clock"></i>
+                                <span id="lastGenerated">Hoy</span>
+                                <span class="stat-label">Último</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-content">
+                        <div class="history-toolbar">
+                            <div class="filter-options">
+                                <button class="filter-btn active" data-filter="all">Todos</button>
+                                <button class="filter-btn" data-filter="favorites">Favoritos</button>
+                                <button class="filter-btn" data-filter="today">Hoy</button>
+                                <button class="filter-btn" data-filter="week">Esta Semana</button>
+                            </div>
+                            
+                            <div class="history-actions">
+                                <button class="btn btn-secondary" id="exportHistory">
+                                    <i class="fas fa-download"></i>
+                                    Exportar
+                                </button>
+                                <button class="btn btn-danger" id="clearAllHistory">
+                                    <i class="fas fa-trash"></i>
+                                    Limpiar Todo
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="history-grid" id="historyGrid">
+                            <!-- Historial se cargará aquí -->
+                            <div class="empty-history" id="emptyHistory">
+                                <i class="fas fa-palette empty-icon"></i>
+                                <h3>Historial Vacío</h3>
+                                <p>Comienza a generar colores para verlos aquí</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Panel lateral de información -->
+        <aside class="info-panel">
+            <div class="info-card">
+                <div class="info-header">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Consejo del Día</h3>
+                </div>
+                <div class="info-content">
+                    <p id="dailyTip">Los colores análogos (vecinos en la rueda de color) crean diseños armoniosos y relajantes.</p>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <div class="info-header">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Atajos Rápidos</h3>
+                </div>
+                <div class="info-content">
+                    <div class="shortcut-item">
+                        <kbd>Espacio</kbd>
+                        <span>Nuevo Color</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>C</kbd>
+                        <span>Copiar Código</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>F</kbd>
+                        <span>Agregar a Favoritos</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>1-4</kbd>
+                        <span>Cambiar Pestaña</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <div class="info-header">
+                    <i class="fas fa-share-alt"></i>
+                    <h3>Compartir Color</h3>
+                </div>
+                <div class="info-content">
+                    <div class="share-buttons">
+                        <button class="share-btn" data-platform="twitter">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button class="share-btn" data-platform="facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button class="share-btn" data-platform="pinterest">
+                            <i class="fab fa-pinterest-p"></i>
+                        </button>
+                        <button class="share-btn" data-platform="copy-link">
+                            <i class="fas fa-link"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>ColorLab</h4>
+                    <p>Herramienta educativa para explorar y aprender sobre teoría del color.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Recursos</h4>
+                    <a href="#" class="footer-link">Guía de Colores</a>
+                    <a href="#" class="footer-link">Teoría del Color</a>
+                    <a href="#" class="footer-link">API para Desarrolladores</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Conectar</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-codepen"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 ColorLab. Herramienta educativa de código abierto.</p>
+                <div class="footer-stats">
+                    <span id="totalGenerated">0</span> colores generados hoy
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Notificaciones -->
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <i class="notification-icon"></i>
+            <span class="notification-message" id="notificationMessage"></span>
+        </div>
+        <button class="notification-close" aria-label="Cerrar notificación">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Modal para detalles del color -->
+    <div class="modal" id="colorDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Detalles del Color</h3>
+                <button class="modal-close" aria-label="Cerrar modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Efectos visuales -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
